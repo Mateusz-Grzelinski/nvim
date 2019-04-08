@@ -19,6 +19,13 @@
     autocmd MyAutoCmd FileType denite,qf,nerdtree let b:cursorword=0
     autocmd MyAutoCmd InsertEnter * let b:cursorword=0
     autocmd MyAutoCmd InsertLeave * let b:cursorword=1
+- repo: 907th/vim-auto-save
+  hook_add: |
+    let g:auto_save = 0
+    let g:auto_save_silent = 0
+    let g:auto_save_events = ["InsertLeave", "TextChanged", "FocusLost"]
+- repo: junegunn/vim-easy-align
+- repo: wellle/targets.vim
 
 # Vim8 only:
 - { repo: roxma/nvim-yarp, if: ! has('nvim') }
@@ -72,6 +79,18 @@
       \ 'makefile=make',
       \ 'py=python'
       \ ]
+
+- repo: iamcco/markdown-preview.nvim
+  build: 'cd app & yarn install'
+
+- repo: idanarye/vim-vebugger
+  hook_source: |
+    nnoremap <F5> :VBGtoggleBreakpointThisLine<CR>
+    nnoremap <F8> :VBGstepOver<CR>
+    nnoremap <F9> :VBGcontinue<CR>
+    nnoremap <F10> :VBGtoggleTerminalBuffer<CR>
+    let g:vebugger_breakpoint_text="\u25CF"
+    let g:vebugger_currentline_text="\u21FE"
 
 - repo: rhysd/vim-gfm-syntax
   depends: vim-markdown

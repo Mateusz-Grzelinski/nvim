@@ -52,7 +52,7 @@
     let g:vim_markdown_emphasis_multiline = 0
     let g:vim_markdown_conceal = 0
     let g:vim_markdown_frontmatter = 1
-    let g:vim_markdown_new_list_item_indent = 2
+    let g:vim_markdown_new_list_item_indent = 0
     let g:vim_markdown_edit_url_in = 'vsplit'
     let g:vim_markdown_strikethrough = 1
     let g:vim_markdown_fenced_languages = [
@@ -301,7 +301,7 @@
     let g:lint_types = [
       \  'yaml.ansible', 'python', 'php', 'ruby', 'vim', 'go', 'sh',
       \  'javascript', 'jsx', 'javascript.jsx', 'json', 'css',
-      \  'markdown', 'html', 'yaml'
+      \  'markdown', 'html', 'yaml', 'c', 'cpp', 'cmake', 'ada', 'erlang'
       \ ]
     autocmd MyAutoCmd BufWritePost *
       \  if expand('%:p') !~ $VIMPATH

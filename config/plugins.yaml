@@ -164,6 +164,8 @@
 - { repo: othree/nginx-contrib-vim, on_ft: nginx }
 - { repo: IN3D/vim-raml, on_ft: raml }
 
+- repo: sbdchd/neoformat
+
 # ==========================================
 # Commands
 # --------

@@ -10,6 +10,9 @@ nnoremap  [Window]   <Nop>
 nmap      s [Window]
 
 " Fix keybind name for Ctrl+Spacebar
+nnoremap <M-C-L> :Neoformat<CR>
+inoremap <M-C-L> <ESC>:Neoformat<CR>i
+vmap <M-C-L> :Neoformat<CR>
 map <Nul> <C-Space>
 map! <Nul> <C-Space>
 

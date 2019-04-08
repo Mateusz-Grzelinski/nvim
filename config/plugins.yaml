@@ -418,6 +418,13 @@
 - { repo: Shougo/neoinclude.vim, on_source: deoplete.nvim }
 - { repo: Shougo/neco-syntax, on_source: deoplete.nvim }
 
+- repo: zchee/deoplete-clang
+  depends: deoplete.nvim
+  on_ft: [cpp, c, h, c++]
+  hook_add: |
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+    let g:deoplete#sources#clang#clang_header = globpath('/usr/lib/clang/', '*/include')
+
 - repo: davidhalter/jedi-vim
   on_ft: python
   hook_add: |

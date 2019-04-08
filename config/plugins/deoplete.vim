@@ -92,7 +92,7 @@ call deoplete#custom#source('tern',          'mark', '<tern>')
 call deoplete#custom#source('go',            'mark', '<go>')
 call deoplete#custom#source('jedi',          'mark', '<jedi>')
 call deoplete#custom#source('vim',           'mark', '<vim>')
-call deoplete#custom#source('neosnippet',    'mark', '<snip>')
+call deoplete#custom#source('ultisnips',    'mark', '<snip>')
 call deoplete#custom#source('tag',           'mark', '<tag>')
 call deoplete#custom#source('around',        'mark', '<around>')
 call deoplete#custom#source('buffer',        'mark', '<buf>')
@@ -107,7 +107,7 @@ call deoplete#custom#source('flow',          'rank', 630)
 call deoplete#custom#source('TernJS',        'rank', 620)
 call deoplete#custom#source('jedi',          'rank', 610)
 call deoplete#custom#source('omni',          'rank', 600)
-call deoplete#custom#source('neosnippet',    'rank', 510)
+call deoplete#custom#source('ultisnips',    'rank', 510)
 call deoplete#custom#source('member',        'rank', 500)
 call deoplete#custom#source('file_include',  'rank', 420)
 call deoplete#custom#source('file',          'rank', 410)
@@ -163,7 +163,8 @@ inoremap <silent><expr><C-l> deoplete#complete_common_string()
 
 " <CR>: If popup menu visible, expand snippet or close popup with selection,
 "       Otherwise, check if within empty pair and use delimitMate.
-inoremap <silent><expr><CR> pumvisible() ? deoplete#close_popup()
+inoremap <silent><expr><CR> pumvisible() ?
+	\ (<SID>is_snippet_expandable() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<cr>" : deoplete#close_popup())
 	\ : (delimitMate#WithinEmptyPair() ? "\<C-R>=delimitMate#ExpandReturn()\<CR>" : "\<CR>")
 
 " <Tab> completion:
@@ -172,20 +173,30 @@ inoremap <silent><expr><CR> pumvisible() ? deoplete#close_popup()
 " 3. Otherwise, if preceding chars are whitespace, insert tab char
 " 4. Otherwise, start manual autocomplete
 imap <silent><expr><Tab> pumvisible() ? "\<Down>"
-	\ : (neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)"
-	\ : (<SID>is_whitespace() ? "\<Tab>"
+	\ : (<SID>is_snippet_expandable() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<cr>"
+	\ : (<SID>fire_completion() ? "\<Tab>"
 	\ : deoplete#manual_complete()))
 
 smap <silent><expr><Tab> pumvisible() ? "\<Down>"
-	\ : (neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)"
-	\ : (<SID>is_whitespace() ? "\<Tab>"
+	\ : (<SID>is_snippet_expandable() ? "<Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>"
+	\ : (<SID>fire_completion() ? "\<Tab>"
 	\ : deoplete#manual_complete()))
 
 inoremap <expr><S-Tab>  pumvisible() ? "\<Up>" : "\<C-h>"
 
-function! s:is_whitespace() "{{{
+" see UltiSnips-FAQ
+function! s:is_snippet_expandable()
+	return !(
+		\ col('.') <= 1
+		\ || !empty(matchstr(getline('.'), '\%' . (col('.') - 1) . 'c\s'))
+		\ || empty(UltiSnips#SnippetsInCurrentScope())
+		\ )
+endfunction
+
+function! s:fire_completion() "{{{
 	let col = col('.') - 1
-	return ! col || getline('.')[col - 1] =~ '\s'
+	let letter =  getline('.')[col - 1]
+	return ! col || letter =~? '[-=+!#$%^&*\(|\{|\[|\]|\}|\)]' || letter =~ '\s'
 endfunction "}}}
 " }}}
 

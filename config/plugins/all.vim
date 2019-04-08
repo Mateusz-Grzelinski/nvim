@@ -327,6 +327,8 @@ endif
 if dein#tap('caw.vim')
 	function! InitCaw() abort
 		if ! &l:modifiable
+			silent! nunmap <buffer> <c-_>
+			silent! xunmap <buffer> <c-_>
 			silent! nunmap <buffer> <Leader>V
 			silent! xunmap <buffer> <Leader>V
 			silent! nunmap <buffer> <Leader>v
@@ -336,6 +338,8 @@ if dein#tap('caw.vim')
 			silent! nunmap <buffer> gcc
 			silent! xunmap <buffer> gcc
 		else
+			xmap <buffer> <c-_>     <Plug>(caw:wrap:toggle)j
+			nmap <buffer> <c-_>     <Plug>(caw:wrap:toggle)j
 			xmap <buffer> <Leader>V <Plug>(caw:wrap:toggle)
 			nmap <buffer> <Leader>V <Plug>(caw:wrap:toggle)
 			xmap <buffer> <Leader>v <Plug>(caw:hatpos:toggle)

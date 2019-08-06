@@ -187,7 +187,7 @@ set cmdheight=2         " Height of the command line
 set cmdwinheight=5      " Command-line lines
 set noequalalways       " Don't resize windows on split or close
 set laststatus=2        " Always show a status line
-set colorcolumn=80      " Highlight the 80th character limit
+set colorcolumn=      " Highlight the 80th character limit
 set display=lastline
 
 " Do not display completion messages
@@ -202,9 +202,9 @@ if has('patch-7.4.1570')
 endif
 
 " For snippet_complete marker
-if has('conceal') && v:version >= 703
-	set conceallevel=2 concealcursor=niv
-endif
+" if has('conceal') && v:version >= 703
+	" set conceallevel=0 concealcursor=niv
+" endif
 
 if exists('&pumblend')
 	set pumblend=20
